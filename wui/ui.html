@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MakeND</title>
+    <script src="eel.js"></script>
+    <script src="jquery-3.6.0.min.js" ></script>
+    <link rel="icon" type="image/ico" href="favicon.ico">
+</head>
+<body>
+    <p>Текст абзаца 1</p>
+    <div align="center" class="content">
+		<img src="favicon.ico" alt="icon" class="logo">
+		<h2>Какой то заголовок</h2>
+		<input type="text" id="chat_id" placeholder="Chat ID"><br>
+		<textarea type="text" id="message" placeholder="Сообщение"></textarea><br>
+        <select id="select_list" size="5" multiple name="hero[]">
+            <option disabled>Выберите героя</option>
+            <option selected value="Чебурашка">Чебурашка</option>
+            <option selected value="Крокодил Гена">Крокодил Гена</option>
+            <option value="Шапокляк">Шапокляк</option>
+            <option value="Крыса Лариса">Крыса Лариса</option>
+           </select><br>
+        <button id="send_msg">Отправить сообщение</button>
+		<p id="result"></p>
+	</div>
+<script type="text/javascript">
+    async function send_msg(){
+        let chat_id = document.getElementById('chat_id').value;
+        let message = document.getElementById('message').value;
+        /* let select_list = document.getElementById('select_list')[0]; */
+        let select_list = Array.from(document.getElementById("test").options).filter(option => option.selected).map(option => option.value);
+
+        let result = await eel.foo(chat_id, message, select_list)();
+        document.getElementById('result').innerHTML = result;
+
+        document.getElementById('message').value = '';
+    }
+
+    $('#send_msg').click(function(){
+        send_msg();
+    })
+</script>
+    
+</body>
+</html>
