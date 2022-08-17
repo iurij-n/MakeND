@@ -28,10 +28,31 @@
     async function send_msg(){
         let chat_id = document.getElementById('chat_id').value;
         let message = document.getElementById('message').value;
-        /* let select_list = document.getElementById('select_list')[0]; */
-        let select_list = Array.from(document.getElementById("test").options).filter(option => option.selected).map(option => option.value);
+        let select_list = document.getElementById('select_list').options;
+        /*  let select_list = Array.from(document.getElementById("test").options).filter(option => option.selected).map(option => option.value);  */
+        let selected_values_list = []
 
-        let result = await eel.foo(chat_id, message, select_list)();
+        for (let element of select_list) {
+            if(element.selected == true) {
+                selected_values_list.push(element.value);
+            }
+        }
+
+        let result = await eel.foo(chat_id, message, selected_values_list)();
+        
+        /*  for (var i=0; iLen=select_list.length; i<iLen; i++) {
+            let result = await eel.foo(chat_id, message, i)();
+            document.getElementById('result').innerHTML = result;
+        }
+        let result = await eel.foo(chat_id, message, select_list[2].value)();
+        for (var i=0, iLen=select_list.length; i<iLen; i++) {
+            opt = select_list[i];
+        
+            if (opt.selected) {
+              result.push(opt.value || opt.text);
+            }
+          }*/
+        
         document.getElementById('result').innerHTML = result;
 
         document.getElementById('message').value = '';

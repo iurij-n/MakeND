@@ -3,6 +3,7 @@ import eel
 
 @eel.expose
 def foo(chat_id, message, select_list):
+    print('11111')
     print(type(select_list), len(select_list), '\n', select_list)
     return select_list
 
