@@ -2,9 +2,10 @@ import eel
 
 
 @eel.expose
-def foo(chat_id, message, select_list):
+def foo(chat_id, message, select_list, data):
     print('11111')
     print(type(select_list), len(select_list), '\n', select_list)
+    print(type(data), '\n', data)
     return select_list
 
 

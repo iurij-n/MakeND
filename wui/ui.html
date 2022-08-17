@@ -21,16 +21,24 @@
             <option value="Шапокляк">Шапокляк</option>
             <option value="Крыса Лариса">Крыса Лариса</option>
            </select><br>
+        <form>
+            <p>
+                <label for="date">Дата рождения:</label>
+                <input type="date" id="date" name="date"/>
+            </p>
+        </form>
         <button id="send_msg">Отправить сообщение</button>
 		<p id="result"></p>
 	</div>
 
-    
+
 <script type="text/javascript">
     async function send_msg(){
         let chat_id = document.getElementById('chat_id').value;
         let message = document.getElementById('message').value;
         let select_list = document.getElementById('select_list').options;
+        let selected_date = document.getElementById('date');
+        selected_date.addEventListener('change', function(){});
         
         let selected_values_list = []
 
@@ -40,7 +48,7 @@
             }
         }
 
-        let result = await eel.foo(chat_id, message, selected_values_list)();
+        let result = await eel.foo(chat_id, message, selected_values_list, selected_date.value)();
         
         document.getElementById('result').innerHTML = result;
 
