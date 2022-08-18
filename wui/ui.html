@@ -6,14 +6,79 @@
     <script src="eel.js"></script>
     <script src="jquery-3.6.0.min.js" ></script>
     <link rel="icon" type="image/ico" href="favicon.ico">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <p>Текст абзаца 1</p>
     <div align="center" class="content">
-		<img src="favicon.ico" alt="icon" class="logo">
-		<h2>Какой то заголовок</h2>
-		<input type="text" id="chat_id" placeholder="Chat ID"><br>
-		<textarea type="text" id="message" placeholder="Сообщение"></textarea><br>
+        <div id="logo_id" class="logo">
+            <img src="favicon.ico" alt="icon">
+            <h3>Какой то заголовок</h3>
+        </div>
+        <br><br><br>
+        <div id="data_id" class="data">
+            <div class="form_radio_btn">
+                <input id="radio-1" type="radio" name="radio" value="1" checked>
+                <label for="radio-1">ДСП-1</label>
+            </div>
+             
+            <div class="form_radio_btn">
+                <input id="radio-2" type="radio" name="radio" value="2">
+                <label for="radio-2">ДСП-2</label>
+            </div>
+             
+            <div class="form_radio_btn">
+                <input id="radio-3" type="radio" name="radio" value="3">
+                <label for="radio-3">ДСП-3</label>
+            </div>
+             
+            <div class="form_radio_btn">
+                <input id="radio-4" type="radio" name="radio" value="4">
+                <label for="radio-4">ДСП-4</label>
+            </div>
+        </div>
+        <br><br><br>
+        <div id="date_id" class="date">
+            <form>
+                <p>
+                    <label for="date">Дата ремонта: </label>
+                    <input type="date" id="date_input" name="date"/>
+                </p>
+            </form>
+        </div>
+        <br><br><br>
+		<!-- <input type="text" id="chat_id" placeholder="Chat ID"><br>
+		<textarea type="text" id="message" placeholder="Сообщение"></textarea><br> -->
+        <p>Допускающий к работе</p>
+<form action="formdata" method="post" name="admitting_list_form">
+    <select id="admitting_id" name="admitting_list">
+     <option>Выберите допускающего из списка</option>
+     <option value="Чебурашка">Чебурашка</option>
+     <option value="Крокодил Гена">Крокодил Гена</option>
+     <option value="Шапокляк">Шапокляк</option>
+     <option value="Крыса Лариса">Крыса Лариса</option>
+    </select>
+   </form><br>        
+   <p>Выдающий норяд-допуск</p>
+   <form action="formdata" method="post" name="issuing_list_form">
+       <select id="issuing_id" name="issuing_list">
+        <option>Выберите выдающего НД из списка</option>
+        <option value="Чебурашка">Чебурашка</option>
+        <option value="Крокодил Гена">Крокодил Гена</option>
+        <option value="Шапокляк">Шапокляк</option>
+        <option value="Крыса Лариса">Крыса Лариса</option>
+       </select>
+      </form><br>
+      <p>Согласующий норяд-допуск</p>
+      <form action="formdata" method="post" name="approving_list_form">
+          <select id="approving_id" name="approving_list">
+           <option>Выберите согласующего НД из списка</option>
+           <option value="Чебурашка">Чебурашка</option>
+           <option value="Крокодил Гена">Крокодил Гена</option>
+           <option value="Шапокляк">Шапокляк</option>
+           <option value="Крыса Лариса">Крыса Лариса</option>
+          </select>
+         </form><br>
+   
         <select id="select_list" size="5" multiple name="hero[]">
             <option disabled>Выберите героя</option>
             <option selected value="Чебурашка">Чебурашка</option>
@@ -21,12 +86,6 @@
             <option value="Шапокляк">Шапокляк</option>
             <option value="Крыса Лариса">Крыса Лариса</option>
            </select><br>
-        <form>
-            <p>
-                <label for="date">Дата рождения:</label>
-                <input type="date" id="date" name="date"/>
-            </p>
-        </form>
         <button id="send_msg">Отправить сообщение</button>
 		<p id="result"></p>
 	</div>
@@ -37,7 +96,7 @@
         let chat_id = document.getElementById('chat_id').value;
         let message = document.getElementById('message').value;
         let select_list = document.getElementById('select_list').options;
-        let selected_date = document.getElementById('date');
+        let selected_date = document.getElementById('date_input');
         selected_date.addEventListener('change', function(){});
         
         let selected_values_list = []

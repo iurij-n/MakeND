@@ -11,4 +11,4 @@ def foo(chat_id, message, select_list, data):
 
 if __name__=='__main__':
     eel.init('wui')
-    eel.start('ui.html', mode='chrome', size=(400, 600), position=(100, 200))
+    eel.start('ui.html', mode='chrome', size=(500, 800), position=(100, 200))
