@@ -49,7 +49,7 @@
         <br><br><br>
 		<!-- <input type="text" id="chat_id" placeholder="Chat ID"><br>
 		<textarea type="text" id="message" placeholder="Сообщение"></textarea><br> -->
-        <p>Допускающий к работе</p>
+        <h3>Допускающий к работе</h3>
 <form action="formdata" method="post" name="admitting_list_form">
     <select id="admitting_id" name="admitting_list">
      <option value="Error" disabled>Выберите допускающего из списка</option>
@@ -59,7 +59,7 @@
      <option value="Крыса Лариса">Крыса Лариса</option>
     </select>
    </form><br>        
-   <p>Выдающий норяд-допуск</p>
+   <h3>Выдающий норяд-допуск</h3>
    <form action="formdata" method="post" name="issuing_list_form">
        <select id="issuing_id" name="issuing_list">
         <option disabled>Выберите выдающего НД из списка</option>
@@ -69,7 +69,7 @@
         <option value="Крыса Лариса">Крыса Лариса</option>
        </select>
       </form><br>
-      <p>Согласующий норяд-допуск</p>
+      <h3>Согласующий норяд-допуск</h3>
       <form action="formdata" method="post" name="approving_list_form">
           <select id="approving_id" name="approving_list">
            <option disabled>Выберите согласующего НД из списка</option>
@@ -88,7 +88,7 @@
             <option value="Крыса Лариса">Крыса Лариса</option>
            </select> -->
            <br>
-        <button id="make_nd" type="button" onclick="make_nd()">Создать НД</button>
+        <button id="make_nd" type="button" onclick="make_nd()" class="btn">Создать НД</button>
 		<p id="result"></p>
 		<p id="result_1">---</p>
 		<p id="result_2">---</p>
