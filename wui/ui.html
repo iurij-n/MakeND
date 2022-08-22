@@ -5,6 +5,7 @@
     <title>MakeND</title>
     <script src="eel.js"></script>
     <script src="jquery-3.6.0.min.js" ></script>
+
     <link rel="icon" type="image/ico" href="favicon.ico">
     <link rel="stylesheet" href="/css/style.css">
 </head>
@@ -15,24 +16,24 @@
             <h3>Какой то заголовок</h3>
         </div>
         <br><br><br>
-        <div id="data_id" class="data">
+        <div id="dsp_id" class="data">
             <div class="form_radio_btn">
-                <input id="radio-1" type="radio" name="radio" value="1" checked>
+                <input id="radio-1" type="radio" name="dsp_radio" value="1" checked>
                 <label for="radio-1">ДСП-1</label>
             </div>
              
             <div class="form_radio_btn">
-                <input id="radio-2" type="radio" name="radio" value="2">
+                <input id="radio-2" type="radio" name="dsp_radio" value="2">
                 <label for="radio-2">ДСП-2</label>
             </div>
              
             <div class="form_radio_btn">
-                <input id="radio-3" type="radio" name="radio" value="3">
+                <input id="radio-3" type="radio" name="dsp_radio" value="3">
                 <label for="radio-3">ДСП-3</label>
             </div>
              
             <div class="form_radio_btn">
-                <input id="radio-4" type="radio" name="radio" value="4">
+                <input id="radio-4" type="radio" name="dsp_radio" value="4">
                 <label for="radio-4">ДСП-4</label>
             </div>
         </div>
@@ -51,7 +52,7 @@
         <p>Допускающий к работе</p>
 <form action="formdata" method="post" name="admitting_list_form">
     <select id="admitting_id" name="admitting_list">
-     <option>Выберите допускающего из списка</option>
+     <option value="Error" disabled>Выберите допускающего из списка</option>
      <option value="Чебурашка">Чебурашка</option>
      <option value="Крокодил Гена">Крокодил Гена</option>
      <option value="Шапокляк">Шапокляк</option>
@@ -61,7 +62,7 @@
    <p>Выдающий норяд-допуск</p>
    <form action="formdata" method="post" name="issuing_list_form">
        <select id="issuing_id" name="issuing_list">
-        <option>Выберите выдающего НД из списка</option>
+        <option disabled>Выберите выдающего НД из списка</option>
         <option value="Чебурашка">Чебурашка</option>
         <option value="Крокодил Гена">Крокодил Гена</option>
         <option value="Шапокляк">Шапокляк</option>
@@ -71,7 +72,7 @@
       <p>Согласующий норяд-допуск</p>
       <form action="formdata" method="post" name="approving_list_form">
           <select id="approving_id" name="approving_list">
-           <option>Выберите согласующего НД из списка</option>
+           <option disabled>Выберите согласующего НД из списка</option>
            <option value="Чебурашка">Чебурашка</option>
            <option value="Крокодил Гена">Крокодил Гена</option>
            <option value="Шапокляк">Шапокляк</option>
@@ -79,23 +80,32 @@
           </select>
          </form><br>
    
-        <select id="select_list" size="5" multiple name="hero[]">
+        <!-- <select id="select_list" size="5" multiple name="hero[]">
             <option disabled>Выберите героя</option>
             <option selected value="Чебурашка">Чебурашка</option>
             <option selected value="Крокодил Гена">Крокодил Гена</option>
             <option value="Шапокляк">Шапокляк</option>
             <option value="Крыса Лариса">Крыса Лариса</option>
-           </select><br>
-        <button id="send_msg">Отправить сообщение</button>
+           </select> -->
+           <br>
+        <button id="make_nd" type="button" onclick="make_nd()">Создать НД</button>
 		<p id="result"></p>
+		<p id="result_1">---</p>
+		<p id="result_2">---</p>
+		<p id="result_3">---</p>
+		<p id="result_4">---</p>
 	</div>
-
-
+    <script src="get_data.js" ></script>
+<!-- 
 <script type="text/javascript">
-    async function send_msg(){
-        let chat_id = document.getElementById('chat_id').value;
-        let message = document.getElementById('message').value;
-        let select_list = document.getElementById('select_list').options;
+    async function make_nd(){
+        let dsp = document.querySelector('input[name="dsp_radio"]:checked').value;
+        let date = document.getElementById("date_input");
+            date.addEventListener("change", function(){});
+        let admitting = document.getElementById('admitting_id').value;
+        let issuing = document.getElementById('issuing_id').value;
+        let approving = document.getElementById('approving_id').value;
+        /* let select_list = document.getElementById('select_list').options;
         let selected_date = document.getElementById('date_input');
         selected_date.addEventListener('change', function(){});
         
@@ -105,19 +115,21 @@
             if(element.selected == true) {
                 selected_values_list.push(element.value);
             }
-        }
+        } */
 
-        let result = await eel.foo(chat_id, message, selected_values_list, selected_date.value)();
+        /* let result = await eel.foo(chat_id, message, selected_values_list, selected_date.value)(); */
         
-        document.getElementById('result').innerHTML = result;
-
-        document.getElementById('message').value = '';
+        document.getElementById('result').innerHTML = dsp;
+        document.getElementById('result_1').innerHTML = date.value;
+        document.getElementById('result_2').innerHTML = admitting;
+        document.getElementById('result_3').innerHTML = issuing;
+        document.getElementById('result_4').innerHTML = approving;
     }
 
-    $('#send_msg').click(function(){
-        send_msg();
+    $('#make_nd').click(function(){
+        make_nd();
     })
-</script>
+</script> -->
     
 </body>
 </html>
