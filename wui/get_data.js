@@ -17,13 +17,13 @@
             }
         } */
 
-        await eel.foo(dsp, date.value, admitting, issuing, approving)();
+        await eel.make_nd(dsp, date.value, admitting, issuing, approving)();
         
-        document.getElementById('result').innerHTML = dsp;
+        /* document.getElementById('result').innerHTML = dsp;
         document.getElementById('result_1').innerHTML = date.value;
         document.getElementById('result_2').innerHTML = admitting;
         document.getElementById('result_3').innerHTML = issuing;
-        document.getElementById('result_4').innerHTML = approving;
+        document.getElementById('result_4').innerHTML = approving; */
     }
 
     /* $('#make_nd').click(function(){

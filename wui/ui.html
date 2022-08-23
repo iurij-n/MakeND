@@ -12,10 +12,9 @@
 <body>
     <div align="center" class="content">
         <div id="logo_id" class="logo">
-            <img src="favicon.ico" alt="icon">
-            <h3>Какой то заголовок</h3>
+            <img src="logo.png" alt="icon">
+            <!-- <h3>Какой то заголовок</h3> -->
         </div>
-        <br><br><br>
         <div id="dsp_id" class="data">
             <div class="form_radio_btn">
                 <input id="radio-1" type="radio" name="dsp_radio" value="1" checked>
@@ -37,16 +36,14 @@
                 <label for="radio-4">ДСП-4</label>
             </div>
         </div>
-        <br><br><br>
+
         <div id="date_id" class="date">
             <form>
-                <p>
                     <label for="date">Дата ремонта: </label>
                     <input type="date" id="date_input" name="date"/>
-                </p>
             </form>
         </div>
-        <br><br><br>
+
 		<!-- <input type="text" id="chat_id" placeholder="Chat ID"><br>
 		<textarea type="text" id="message" placeholder="Сообщение"></textarea><br> -->
         <h3>Допускающий к работе</h3>
@@ -58,7 +55,7 @@
      <option value="Шапокляк">Шапокляк</option>
      <option value="Крыса Лариса">Крыса Лариса</option>
     </select>
-   </form><br>        
+   </form><br>
    <h3>Выдающий норяд-допуск</h3>
    <form action="formdata" method="post" name="issuing_list_form">
        <select id="issuing_id" name="issuing_list">
@@ -87,13 +84,12 @@
             <option value="Шапокляк">Шапокляк</option>
             <option value="Крыса Лариса">Крыса Лариса</option>
            </select> -->
-           <br>
-        <button id="make_nd" type="button" onclick="make_nd()" class="btn">Создать НД</button>
-		<p id="result"></p>
+        <button id="make_nd" type="button" onclick="make_nd()" class="button">Создать НД</button>
+		<!-- <p id="result"></p>
 		<p id="result_1">---</p>
 		<p id="result_2">---</p>
 		<p id="result_3">---</p>
-		<p id="result_4">---</p>
+		<p id="result_4">---</p> -->
 	</div>
     <script src="get_data.js" ></script>
 <!-- 

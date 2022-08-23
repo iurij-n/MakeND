@@ -1,6 +1,7 @@
 .form_radio_btn {
 	display: inline-block;
-	margin-right: 10px;
+    margin-right: 5px;
+    margin-left: 5px;
 }
 .form_radio_btn input[type=radio] {
 	display: none;
@@ -31,41 +32,68 @@
 	color: #666;
 }
 
-p, form, select, label, input {
+p, form, label, input {
     font-size: 19px;
     line-height: 1.8;
 }
 
-.btn {
-	display: inline-block;	
-	box-sizing: border-box;
-	padding: 0 20px;
-	margin: 0 15px 15px 0;
-	outline: none;
-	border: none;  
-	border-radius: 6px;
-	height: 40px;
-	line-height: 40px;
-	font-size: 22px;
-	font-weight: 600;
-	text-decoration: none;
-	color: #000;
-	background-color: #e7f3ff;
-	cursor: pointer;
-	user-select: none;
+select {
+    font-size: 19px;
+    line-height: 1.8;
+	width: 380px;
+}
+
+.button {
+	align-items: center;
 	appearance: none;
+	background-color: #FCFCFD;
+	border-radius: 4px;
+	border-width: 0;
+	box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,rgba(45, 35, 66, 0.3) 0 7px 13px -3px,#D6D6E7 0 -3px 0 inset;
+	box-sizing: border-box;
+	color: #36395A;
+	cursor: pointer;
+	display: inline-flex;
+	font-family: "JetBrains Mono",monospace;
+	height: 48px;
+	width: 380px;
+	justify-content: center;
+	line-height: 1;
+	list-style: none;
+	overflow: hidden;
+	padding-left: 16px;
+	padding-right: 16px;
+	position: relative;
+	text-align: left;
+	text-decoration: none;
+	transition: box-shadow .15s,transform .15s;
+	user-select: none;
+	-webkit-user-select: none;
 	touch-action: manipulation;
-}
-.btn:focus-visible {
-	box-shadow: 0 0 0 2px #666;
-}
-.btn:hover {
-	background-color: #DBE7F2;
-}
-.btn:active {
-	transform: scale(0.96);
-}
-.btn:disabled {
-	pointer-events: none;
-	opacity: 0.65;
-}
+	white-space: nowrap;
+	will-change: box-shadow,transform;
+	font-size: 18px;
+	margin-top: 50px;
+  }
+  
+  .button:focus {
+	box-shadow: #D6D6E7 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
+  }
+  
+  .button:hover {
+	box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
+	transform: translateY(-2px);
+  }
+  
+  .button:active {
+	box-shadow: #D6D6E7 0 3px 7px inset;
+	transform: translateY(2px);
+  }
+
+  .logo {
+	margin-bottom: 20px;
+  }
+
+  .date {
+	margin-top: 25px;
+  }
