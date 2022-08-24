@@ -13,7 +13,6 @@ ROWS = {
 }
 
 
-
 @eel.expose
 def foo(dsp, date, admitting, issuing, approving):
     print('Переданые данные:')
@@ -86,7 +85,7 @@ def make_documents(templates_list, context):
 
 def main():
     eel.init('wui')
-    eel.start('ui.html', mode='edge', size=(500, 800), position=(100, 200))
+    eel.start('ui.html', mode='chrome', size=(500, 850), position=(100, 200))
 
 
 @eel.expose

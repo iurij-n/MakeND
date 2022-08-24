@@ -32,17 +32,6 @@
 	color: #666;
 }
 
-p, form, label, input {
-    font-size: 19px;
-    line-height: 1.8;
-}
-
-select {
-    font-size: 19px;
-    line-height: 1.8;
-	width: 380px;
-}
-
 .button {
 	align-items: center;
 	appearance: none;
@@ -97,3 +86,36 @@ select {
   .date {
 	margin-top: 25px;
   }
+
+  .body {
+	font-family: Inter, Arial, sans-serif;
+	font-size: 18px;
+    line-height: 28px;
+    letter-spacing: -0.26px;
+	color: #0e0e0f;
+  }
+  h3 {
+	font-weight: 800;
+    font-size: 23px;
+    line-height: 32px;
+    letter-spacing: -0.44px;
+  }
+
+  .data {
+	margin-bottom: 35px;
+  }
+
+  .form {
+	margin-bottom: 30px;
+  }
+
+  p, label, input {
+    font-size: 19px;
+    line-height: 1.8;
+}
+
+select {
+    font-size: 19px;
+    line-height: 1.8;
+	width: 380px;
+}

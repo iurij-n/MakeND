@@ -1,131 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>MakeND</title>
-    <script src="eel.js"></script>
-    <script src="jquery-3.6.0.min.js" ></script>
 
-    <link rel="icon" type="image/ico" href="favicon.ico">
-    <link rel="stylesheet" href="/css/style.css">
-</head>
-<body>
-    <div align="center" class="content">
-        <div id="logo_id" class="logo">
-            <img src="logo.png" alt="icon">
-            <!-- <h3>Какой то заголовок</h3> -->
-        </div>
-        <div id="dsp_id" class="data">
-            <div class="form_radio_btn">
-                <input id="radio-1" type="radio" name="dsp_radio" value="1" checked>
-                <label for="radio-1">ДСП-1</label>
-            </div>
-             
-            <div class="form_radio_btn">
-                <input id="radio-2" type="radio" name="dsp_radio" value="2">
-                <label for="radio-2">ДСП-2</label>
-            </div>
-             
-            <div class="form_radio_btn">
-                <input id="radio-3" type="radio" name="dsp_radio" value="3">
-                <label for="radio-3">ДСП-3</label>
-            </div>
-             
-            <div class="form_radio_btn">
-                <input id="radio-4" type="radio" name="dsp_radio" value="4">
-                <label for="radio-4">ДСП-4</label>
-            </div>
-        </div>
+    <head>
+        <meta charset="UTF-8">
+        <title>MakeND - Создание пакета НД-90</title>
+        <script src="eel.js"></script>
+        <script src="jquery-3.6.0.min.js" ></script>
 
-        <div id="date_id" class="date">
-            <form>
-                    <label for="date">Дата ремонта: </label>
-                    <input type="date" id="date_input" name="date"/>
+        <link rel="icon" type="image/ico" href="favicon.ico">
+        <link rel="stylesheet" href="/css/style.css">
+    </head>
+
+    <body class="body">
+        <div align="center" class="content">
+            <div id="logo_id" class="logo">
+                <img src="logo.png" alt="icon">
+            </div>
+            <div id="dsp_id" class="data">
+                <div class="form_radio_btn">
+                    <input id="radio-1" type="radio" name="dsp_radio" value="1" checked>
+                    <label for="radio-1">ДСП-1</label>
+                </div>
+                
+                <div class="form_radio_btn">
+                    <input id="radio-2" type="radio" name="dsp_radio" value="2">
+                    <label for="radio-2">ДСП-2</label>
+                </div>
+                
+                <div class="form_radio_btn">
+                    <input id="radio-3" type="radio" name="dsp_radio" value="3">
+                    <label for="radio-3">ДСП-3</label>
+                </div>
+                
+                <div class="form_radio_btn">
+                    <input id="radio-4" type="radio" name="dsp_radio" value="4">
+                    <label for="radio-4">ДСП-4</label>
+                </div>
+            </div>
+
+            <div id="date_id" class="date">
+                <form>
+                        <label for="date">Дата ремонта: </label>
+                        <input type="date" id="date_input" name="date"/>
+                </form>
+            </div>
+
+            <h3>Допускающий к работе</h3>
+            <form action="formdata" method="post" name="admitting_list_form" class="form">
+                <select id="admitting_id" name="admitting_list">
+                    <option value="Error" disabled>Выберите допускающего из списка</option>
+                    <option value="Голованев А.С.">Голованев А.С.</option>
+                    <option value="Галицын А.С.">Галицын А.С.</option>
+                </select>
             </form>
+
+            <h3>Выдающий норяд-допуск</h3>
+            <form action="formdata" method="post" name="issuing_list_form" class="form">
+                <select id="issuing_id" name="issuing_list">
+                    <option disabled>Выберите выдающего НД из списка</option>
+                    <option value="Красноухов Дмитрий Николаевич">Красноухов Дмитрий Иванович</option>
+                    <option value="Чепелев Сергей Николаевич">Чепелев Сергей Николаевич</option>
+                    <option value="Жимонов Сергей Петрович">Баранников Михаил Александрович</option>
+                    <option value="Жимонов Сергей Петрович">Жимонов Сергей Петрович</option>
+                </select>
+            </form>
+
+            <h3>Согласующий норяд-допуск</h3>
+            <form action="formdata" method="post" name="approving_list_form" class="form">
+                <select id="approving_id" name="approving_list">
+                    <option disabled>Выберите согласующего НД из списка</option>
+                    <option value="Труфанов С.М.">Труфанов С.М.</option>
+                    <option value="Красноухов Д.М.">Красноухов Д.М.</option>
+                </select>
+            </form>
+
+            <button id="make_nd" type="button" onclick="make_nd()" class="button">Создать пакет НД</button>
         </div>
 
-		<!-- <input type="text" id="chat_id" placeholder="Chat ID"><br>
-		<textarea type="text" id="message" placeholder="Сообщение"></textarea><br> -->
-        <h3>Допускающий к работе</h3>
-<form action="formdata" method="post" name="admitting_list_form">
-    <select id="admitting_id" name="admitting_list">
-     <option value="Error" disabled>Выберите допускающего из списка</option>
-     <option value="Чебурашка">Чебурашка</option>
-     <option value="Крокодил Гена">Крокодил Гена</option>
-     <option value="Шапокляк">Шапокляк</option>
-     <option value="Крыса Лариса">Крыса Лариса</option>
-    </select>
-   </form><br>
-   <h3>Выдающий норяд-допуск</h3>
-   <form action="formdata" method="post" name="issuing_list_form">
-       <select id="issuing_id" name="issuing_list">
-        <option disabled>Выберите выдающего НД из списка</option>
-        <option value="Чебурашка">Чебурашка</option>
-        <option value="Крокодил Гена">Крокодил Гена</option>
-        <option value="Шапокляк">Шапокляк</option>
-        <option value="Крыса Лариса">Крыса Лариса</option>
-       </select>
-      </form><br>
-      <h3>Согласующий норяд-допуск</h3>
-      <form action="formdata" method="post" name="approving_list_form">
-          <select id="approving_id" name="approving_list">
-           <option disabled>Выберите согласующего НД из списка</option>
-           <option value="Чебурашка">Чебурашка</option>
-           <option value="Крокодил Гена">Крокодил Гена</option>
-           <option value="Шапокляк">Шапокляк</option>
-           <option value="Крыса Лариса">Крыса Лариса</option>
-          </select>
-         </form><br>
-   
-        <!-- <select id="select_list" size="5" multiple name="hero[]">
-            <option disabled>Выберите героя</option>
-            <option selected value="Чебурашка">Чебурашка</option>
-            <option selected value="Крокодил Гена">Крокодил Гена</option>
-            <option value="Шапокляк">Шапокляк</option>
-            <option value="Крыса Лариса">Крыса Лариса</option>
-           </select> -->
-        <button id="make_nd" type="button" onclick="make_nd()" class="button">Создать НД</button>
-		<!-- <p id="result"></p>
-		<p id="result_1">---</p>
-		<p id="result_2">---</p>
-		<p id="result_3">---</p>
-		<p id="result_4">---</p> -->
-	</div>
-    <script src="get_data.js" ></script>
-<!-- 
-<script type="text/javascript">
-    async function make_nd(){
-        let dsp = document.querySelector('input[name="dsp_radio"]:checked').value;
-        let date = document.getElementById("date_input");
-            date.addEventListener("change", function(){});
-        let admitting = document.getElementById('admitting_id').value;
-        let issuing = document.getElementById('issuing_id').value;
-        let approving = document.getElementById('approving_id').value;
-        /* let select_list = document.getElementById('select_list').options;
-        let selected_date = document.getElementById('date_input');
-        selected_date.addEventListener('change', function(){});
-        
-        let selected_values_list = []
-
-        for (let element of select_list) {
-            if(element.selected == true) {
-                selected_values_list.push(element.value);
-            }
-        } */
-
-        /* let result = await eel.foo(chat_id, message, selected_values_list, selected_date.value)(); */
-        
-        document.getElementById('result').innerHTML = dsp;
-        document.getElementById('result_1').innerHTML = date.value;
-        document.getElementById('result_2').innerHTML = admitting;
-        document.getElementById('result_3').innerHTML = issuing;
-        document.getElementById('result_4').innerHTML = approving;
-    }
-
-    $('#make_nd').click(function(){
-        make_nd();
-    })
-</script> -->
-    
-</body>
+        <script src="get_data.js" ></script>
+    </body>
 </html>
