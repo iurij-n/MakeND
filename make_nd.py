@@ -1,5 +1,6 @@
 import eel
 import os
+import sys
 
 from docxtpl import DocxTemplate
 
@@ -12,16 +13,15 @@ ROWS = {
     '4': 'H - K'
 }
 
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
 
-@eel.expose
-def foo(dsp, date, admitting, issuing, approving):
-    print('Переданые данные:')
-    print('Номер ДСП: ', dsp, '       ', 'Тип переменной - ', type(dsp))
-    print('Дата ремонта: ', date, '       ', 'Тип переменной - ', type(date))
-    print('Допускающий НД: ', admitting, '       ', 'Тип переменной - ', type(admitting))
-    print('Выдающий НД: ', issuing, '       ', 'Тип переменной - ', type(issuing))
-    print('Согласующий НД: ', approving, '       ', 'Тип переменной - ', type(approving))
-    ## return select_list
+    return os.path.join(base_path, relative_path)
 
 
 def get_templates_list() -> list:
@@ -54,6 +54,9 @@ def get_context(dsp, date, admitting, issuing, approving):
     context['Допускающий'] = admitting
     context['Выдающий'] = issuing
     context['Согласующий'] = approving
+    context['Ряды'] = ROWS[context['ДСП']]
+    dsp_number = int(context['ДСП'])
+    context['Конвейеры'] = f'{dsp_number*2-1}, {dsp_number*2}'
     
     return context
 
@@ -85,7 +88,12 @@ def make_documents(templates_list, context):
 
 def main():
     eel.init('wui')
-    eel.start('ui.html', mode='chrome', size=(500, 850), position=(100, 200))
+    try:
+        eel.start('ui.html', mode='chrome', size=(500, 850), position=(100, 200))
+    except:
+        return
+        
+        
 
 
 @eel.expose
