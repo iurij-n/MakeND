@@ -13,16 +13,6 @@ ROWS = {
     '4': 'H - K'
 }
 
-def resource_path(relative_path):
-    """ Get absolute path to resource, works for dev and for PyInstaller """
-    try:
-        # PyInstaller creates a temp folder and stores path in _MEIPASS
-        base_path = sys._MEIPASS
-    except Exception:
-        base_path = os.path.abspath(".")
-
-    return os.path.join(base_path, relative_path)
-
 
 def get_templates_list() -> list:
     path = os.getcwd()
@@ -89,7 +79,7 @@ def make_documents(templates_list, context):
 def main():
     eel.init('wui')
     try:
-        eel.start('ui.html', mode='chrome', size=(500, 850), position=(100, 200))
+        eel.start('ui.html', mode='edge', size=(500, 850), position=(100, 200))
     except:
         return
         

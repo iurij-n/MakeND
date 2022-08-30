@@ -1,4 +1,5 @@
     async function make_nd(){
+        
         let dsp = document.querySelector('input[name="dsp_radio"]:checked').value;
         let date = document.getElementById("date_input");
             date.addEventListener("change", function(){});
