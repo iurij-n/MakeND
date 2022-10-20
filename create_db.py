@@ -1,53 +1,44 @@
 import os
+
 import pandas
 import peewee
 
 from models import *
 
-if os.path.isfile('itr_list.xlsx'): 
-  excel_data_df = pandas.read_excel(
-    'itr_list.xlsx', sheet_name=0).fillna(False)
-else:
-  raise FileNotFoundError("The file itr_list.xlsx does not exist!!!")
 
-# print whole sheet data
+class MakeBD():
+    """Класс создает базу данных db_name на основе данных прочитанных
+    из таблицы MS Excel excel_file_name.
+    """
+    def __init__(self, excel_file_name, db_name):
+        if os.path.isfile(excel_file_name): 
+            self.excel_data_df = pandas.read_excel(
+                excel_file_name, sheet_name=0).fillna(False)
+        else:
+            raise FileNotFoundError(
+                "The file itr_list.xlsx does not exist!!!")
 
-# print(excel_data_df)
+        self.connect = SqliteDatabase(db_name)
 
-# print(list(excel_data_df.values))
+        try:
+            self.connect.connect()
+            Person.create_table(safe=True)
+        except peewee.InternalError as px:
+            print(str(px))
 
-for index, value in enumerate(excel_data_df.values):
-    print(index, '-----', tuple(excel_data_df.values[index]))
-# a = list(excel_data_df.values)
+        Person.delete().execute()
 
-# for index, value in enumerate(a):
-#     print(f'Элемнт с индексом {index} - {value}, его тип - {type(value)}')
-#     if value == False:
-#         print('1111111111111')
-# # print(excel_data_df.columns.ravel())
+        self.fields = list(Person._meta.fields.keys())[1:]
+        self.data = [tuple(self.excel_data_df.values[index])
+                     for index in
+                     range(self.excel_data_df.shape[0])]
+        Person.insert_many(
+            self.data,
+            fields=self.fields).execute()
 
-# # for row in excel_data_df:
-# #     print(row)
 
-connect = SqliteDatabase('itr.db')
+def main() -> None:
+    db_inst = MakeBD('itr_list.xlsx', 'itr.sqlite')
 
-try:
-    connect.connect()
-    Person.create_table(safe=True)
-except peewee.InternalError as px:
-    print(str(px))
-    
-query = Person.delete()
-query.execute()
-
-for index, value in enumerate(excel_data_df.values):
-    data = tuple(excel_data_df.values[index])
-    row = Person(
-        last_name = data[0],
-        name = data[1],
-        patronymic = data[2],
-        is_admitting = data[3],
-        is_issuing = data[4],
-        is_approving = data[5],
-    )
-    row.save()
+if __name__=='__main__':
+    main()

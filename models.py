@@ -1,6 +1,6 @@
 from peewee import *
 
-itr_db = SqliteDatabase('itr.db')
+itr_db = SqliteDatabase('itr.sqlite')
 
 class Person(Model):
     last_name = FixedCharField(
