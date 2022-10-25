@@ -78,6 +78,8 @@ def make_documents(templates_list, context):
 
 def main():
     eel.init('wui')
+    eel.say_hello_js(["Vol444vo", "Sa444ab", "Merc444ades", "Au444di"], ["Volvo_1", "Saab_1", "Mercades_1", "Audi_1"],
+                     ["Vol555vo", "Sa555ab", "Merc555ades", "Au555di"], ["Volvo_1", "Saab_1", "Mercades_1", "Audi_1"])
     try:
         eel.start('ui.html', mode='chrome', size=(500, 850), position=(100, 200))
     except:
