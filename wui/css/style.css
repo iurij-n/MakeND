@@ -119,3 +119,16 @@ select {
     line-height: 1.8;
 	width: 380px;
 }
+
+.copyright {
+	align-items: center;
+	font-size: 9px;
+}
+
+.footer {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	height: 30px;
+}
