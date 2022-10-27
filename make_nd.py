@@ -78,11 +78,15 @@ def make_documents(templates_list, context):
     os.mkdir(save_folder)
     os.startfile(f'{os.getcwd()}\\{save_folder}')
     print('\nСоздание НД\n')
-    for template in templates_list:
+    templates_count = len(templates_list)
+    for number, template in enumerate(templates_list):
         document = DocxTemplate('templates/'+template)
         document.render(context)
         document.save(save_folder+template)
-        print(f'{template} - сохранен')
+        print(f'{number+1}/{templates_count} {template} - сохранен')
+        eel.progress_bar(f'{number+1}/{templates_count}')
+    print('Все файлы успешно сохранены!')
+    eel.progress_bar('Все файлы успешно сохранены!')
 
 
 def main():
