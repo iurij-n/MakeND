@@ -56,7 +56,7 @@ def get_context(dsp, date, admitting, issuing, approving):
     context['Ряды'] = ROWS[context['ДСП']]
     dsp_number = int(context['ДСП'])
     context['Конвейеры'] = f'{dsp_number*2-1}, {dsp_number*2}'
-
+    
     return context
 
 
@@ -124,6 +124,10 @@ def main():
 @eel.expose
 def make_nd(dsp, date, admitting, issuing, approving):
 
+    db_inst = ExcelToDB('itr_list.xlsx', 'itr.sqlite', Person)
+    admitting_list = db_inst.get_name_list('is_admitting', False)
+    print(admitting, admitting_list)
+    
     templates_list = get_templates_list()
     context = get_context(dsp, date, admitting, issuing, approving)
 
