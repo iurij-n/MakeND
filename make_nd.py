@@ -1,13 +1,13 @@
-import eel
 import os
+import time
 
+import eel
 from docxtpl import DocxTemplate
 
 from create_db import ExcelToDB
 from models import Person
 
-
-SAVE_FOLDER_NAME = 'Готовые НД T1'
+SAVE_FOLDER_NAME = 'Готовые НД T1 ДСП-'
 ROWS = {
     '1': 'A - D',
     '2': 'D - F',
@@ -20,6 +20,8 @@ SKIP_ISSUING_VALUE = ' ' * 60
 SKIP_APPROVING_VALUE = ' ' * 100
 APPROVER_POSITION = 'заместитель начальника цеха по выплавке'
 
+db_inst = ExcelToDB('itr_list.xlsx', 'itr.sqlite', Person)
+
 
 def get_templates_list() -> list:
     path = os.getcwd()
@@ -30,7 +32,9 @@ def get_templates_list() -> list:
                               ('.doc', '.docx')]
     except FileNotFoundError:
         raise FileNotFoundError
-    print(f'Найдено шаболонов - {len(templates_list)}\n')
+
+    eel.progress_bar(f'Найдено шаболонов - {len(templates_list)}')
+    time.sleep(0.5)
     return templates_list
 
 
@@ -48,7 +52,17 @@ def get_context(dsp, date, admitting, issuing, approving):
     else:
         context['Дата'] = format_date(date)
 
-    context['Допускающий'] = admitting
+    admitting_list = db_inst.get_name_list('is_admitting', False)
+    try:
+        admitting_list.remove(admitting)
+    except ValueError:
+        pass
+    context['СписокДопускающих'] = ', '.join(admitting_list)
+
+    admitting = admitting.split()
+    context['Допускающий'] = (
+        f'{admitting[0]} {admitting[1][0]}.{admitting[2][0]}.'
+    )
     context['Выдающий'] = issuing
     if approving != SKIP_APPROVING_VALUE:
         approving = f'{APPROVER_POSITION} {approving}'
@@ -56,7 +70,7 @@ def get_context(dsp, date, admitting, issuing, approving):
     context['Ряды'] = ROWS[context['ДСП']]
     dsp_number = int(context['ДСП'])
     context['Конвейеры'] = f'{dsp_number*2-1}, {dsp_number*2}'
-    
+
     return context
 
 
@@ -64,10 +78,8 @@ def get_save_folder_name(date: str, dsp: int) -> str:
     prefix = ''
     prefix_number = 1
     while 1:
-        if not os.path.isdir(f'{SAVE_FOLDER_NAME} ДСП-{dsp} {date}{prefix}/'):
-            print(f'explorer.exe {os.getcwd()}\\{SAVE_FOLDER_NAME} ДСП-{dsp} {date}{prefix}\\')
-
-            return f'{SAVE_FOLDER_NAME} ДСП-{dsp} {date}{prefix}/'
+        if not os.path.isdir(f'{SAVE_FOLDER_NAME}{dsp} {date}{prefix}/'):
+            return f'{SAVE_FOLDER_NAME}{dsp} {date}{prefix}/'
         else:
             prefix = '_' + str(prefix_number)
             prefix_number += 1
@@ -85,6 +97,7 @@ def make_documents(templates_list, context):
         document.save(save_folder+template)
         print(f'{number+1}/{templates_count} {template} - сохранен')
         eel.progress_bar(f'{number+1}/{templates_count}')
+    time.sleep(0.5)
     print('Все файлы успешно сохранены!')
     eel.progress_bar('Все файлы успешно сохранены!')
 
@@ -92,9 +105,8 @@ def make_documents(templates_list, context):
 def main():
     eel.init('wui')
 
-    db_inst = ExcelToDB('itr_list.xlsx', 'itr.sqlite', Person)
     admitting_list = db_inst.get_name_list('is_admitting', False)
-    admitting_value_list = db_inst.get_name_list('is_admitting')
+    admitting_value_list = db_inst.get_name_list('is_admitting', False)
     issuing_list = db_inst.get_name_list('is_issuing', False)
     issuing_value_list = db_inst.get_name_list('is_issuing', False)
     approving_list = db_inst.get_name_list('is_approving', False)
@@ -117,20 +129,15 @@ def main():
                   mode='chrome',
                   size=(500, 850),
                   position=(100, 200))
-    except:
+    except Exception:
         return
 
 
 @eel.expose
 def make_nd(dsp, date, admitting, issuing, approving):
 
-    db_inst = ExcelToDB('itr_list.xlsx', 'itr.sqlite', Person)
-    admitting_list = db_inst.get_name_list('is_admitting', False)
-    print(admitting, admitting_list)
-    
     templates_list = get_templates_list()
     context = get_context(dsp, date, admitting, issuing, approving)
-
     make_documents(templates_list, context)
 
 
