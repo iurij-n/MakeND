@@ -33,7 +33,7 @@ def get_templates_list() -> list:
     except FileNotFoundError:
         raise FileNotFoundError
 
-    eel.progress_bar(f'Найдено шаболонов - {len(templates_list)}')
+    eel.progress_bar(f'Найдено шаблонов - {len(templates_list)}')
     time.sleep(0.5)
     return templates_list
 
@@ -45,6 +45,7 @@ def format_date(date):
 
 def get_context(dsp, date, admitting, issuing, approving):
     context = {}
+
     context['ДСП'] = dsp
 
     if date == '':
@@ -54,19 +55,26 @@ def get_context(dsp, date, admitting, issuing, approving):
 
     admitting_list = db_inst.get_name_list('is_admitting', False)
     try:
-        admitting_list.remove(admitting)
+        admitting_list.remove(issuing)
     except ValueError:
         pass
     context['СписокДопускающих'] = ', '.join(admitting_list)
 
-    admitting = admitting.split()
-    context['Допускающий'] = (
-        f'{admitting[0]} {admitting[1][0]}.{admitting[2][0]}.'
-    )
+    if admitting != SKIP_ADMITTING_VALUE:
+        admitting = admitting.split()
+        context['Допускающий'] = (
+            f'{admitting[0]} {admitting[1][0]}.{admitting[2][0]}.'
+        )
+    else:
+        context['Допускающий'] = admitting
     context['Выдающий'] = issuing
     if approving != SKIP_APPROVING_VALUE:
-        approving = f'{APPROVER_POSITION} {approving}'
+        approving = approving.split()
+        approving = (f'{APPROVER_POSITION} '
+                     f'{approving[0]} {approving[1][0]}.{approving[2][0]}.')
+    
     context['Согласующий'] = approving
+    
     context['Ряды'] = ROWS[context['ДСП']]
     dsp_number = int(context['ДСП'])
     context['Конвейеры'] = f'{dsp_number*2-1}, {dsp_number*2}'
@@ -110,7 +118,7 @@ def main():
     issuing_list = db_inst.get_name_list('is_issuing', False)
     issuing_value_list = db_inst.get_name_list('is_issuing', False)
     approving_list = db_inst.get_name_list('is_approving', False)
-    approving_value_list = db_inst.get_name_list('is_approving')
+    approving_value_list = db_inst.get_name_list('is_approving', False)
     admitting_list.append(SKIP)
     admitting_value_list.append(SKIP_ADMITTING_VALUE)
     issuing_list.append(SKIP)

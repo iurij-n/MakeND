@@ -2,6 +2,7 @@ from peewee import *
 
 itr_db = SqliteDatabase('itr.sqlite')
 
+
 class Person(Model):
     last_name = FixedCharField(
         max_length=20,
