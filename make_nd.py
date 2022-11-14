@@ -1,3 +1,4 @@
+import configparser
 import os
 import time
 
@@ -7,26 +8,35 @@ from docxtpl import DocxTemplate
 from create_db import ExcelToDB
 from models import Person
 
-SAVE_FOLDER_NAME = 'Готовые НД T1 ДСП-'
+config = configparser.ConfigParser()
+config.read("settings.ini", encoding='utf-8')
+
+SAVE_FOLDER_NAME = config["Settings"]["SAVE_FOLDER_NAME"]
+SKIP = config["Settings"]["SKIP"]
+APPROVER_POSITION = config["Settings"]["APPROVER_POSITION"]
+ENGINEERS_LIST_FILENAME = config["Settings"]["ENGINEERS_LIST_FILENAME"]
+DB_FILENAME = config["Settings"]["DB_FILENAME"]
+TEMPLATES_PATHNAME = config["Settings"]["TEMPLATES_PATHNAME"]
+EXTRA_KEYS_FILENAME = config["Settings"]["EXTRA_KEYS_FILENAME"]
+
 ROWS = {
     '1': 'A - D',
     '2': 'D - F',
     '3': 'F - H',
     '4': 'H - K'
 }
-SKIP = 'Пропустить'
+
 SKIP_ADMITTING_VALUE = ''
 SKIP_ISSUING_VALUE = ' ' * 60
 SKIP_APPROVING_VALUE = ' ' * 100
-APPROVER_POSITION = 'заместитель начальника цеха по выплавке'
 
-db_inst = ExcelToDB('itr_list.xlsx', 'itr.sqlite', Person)
+db_inst = ExcelToDB(ENGINEERS_LIST_FILENAME, DB_FILENAME, Person)
 
 
 def get_templates_list() -> list:
     path = os.getcwd()
     try:
-        with os.scandir(path+'/templates') as listofentries:
+        with os.scandir(path+'/'+TEMPLATES_PATHNAME) as listofentries:
             templates_list = [entry.name for entry in listofentries
                               if os.path.splitext(entry)[1] in
                               ('.doc', '.docx')]
@@ -41,6 +51,21 @@ def get_templates_list() -> list:
 def format_date(date):
     date = [symbol for symbol in date]
     return f'{"".join(date[8:])}.{"".join(date[5:7])}.{"".join(date[:4])}'
+
+
+def get_extra_keys() -> dict:
+    with open(EXTRA_KEYS_FILENAME, encoding="utf-8") as data_file:
+        raw_data = data_file.readlines()
+    data = [row for row in raw_data if ': ' in row and '#' not in row]
+    extra_context = {}
+    for row in data:
+        key, value = row.split(': ')
+        extra_context[key] = value.replace('\n', '')
+
+    print('Дополнительные ключи:\n')
+    for key, value in extra_context.items():
+        print(key, ': ', value)
+    return extra_context
 
 
 def get_context(dsp, date, admitting, issuing, approving):
@@ -72,14 +97,14 @@ def get_context(dsp, date, admitting, issuing, approving):
         approving = approving.split()
         approving = (f'{APPROVER_POSITION} '
                      f'{approving[0]} {approving[1][0]}.{approving[2][0]}.')
-    
+
     context['Согласующий'] = approving
-    
+
     context['Ряды'] = ROWS[context['ДСП']]
     dsp_number = int(context['ДСП'])
     context['Конвейеры'] = f'{dsp_number*2-1}, {dsp_number*2}'
 
-    return context
+    return {**context, **get_extra_keys()}
 
 
 def get_save_folder_name(date: str, dsp: int) -> str:
