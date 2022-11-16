@@ -23,13 +23,12 @@ class Person(Model):
         verbose_name='Допускающий'
     )
     is_issuing = BooleanField(
-        verbose_name='Допускающий'
+        verbose_name='Выдающий'
     )
     is_approving = BooleanField(
-        verbose_name='Допускающий'
+        verbose_name='Согласующий'
     )
 
     class Meta:
         database = itr_db
         order_by = ('last_name',)
-        

@@ -8,6 +8,7 @@ from docxtpl import DocxTemplate
 from create_db import ExcelToDB
 from models import Person
 
+# Чтение значений констант из settings.ini
 config = configparser.ConfigParser()
 config.read("settings.ini", encoding='utf-8')
 
@@ -34,6 +35,11 @@ db_inst = ExcelToDB(ENGINEERS_LIST_FILENAME, DB_FILENAME, Person)
 
 
 def get_templates_list() -> list:
+    '''
+    Возвращает список файлов в папке TEMPLATES_PATHNAME
+    с расширениями 'doc' и 'docx'
+    '''
+
     path = os.getcwd()
     try:
         with os.scandir(path+'/'+TEMPLATES_PATHNAME) as listofentries:
@@ -48,12 +54,21 @@ def get_templates_list() -> list:
     return templates_list
 
 
-def format_date(date):
+def format_date(date: str) -> str:
+    '''
+    Преобразует и возвращает дату в формате ДД:ММ:ГГГГ
+    '''
+
     date = [symbol for symbol in date]
     return f'{"".join(date[8:])}.{"".join(date[5:7])}.{"".join(date[:4])}'
 
 
 def get_extra_keys() -> dict:
+    '''
+    Возвращает словарь из дополнительных ключей найденных
+    в файле EXTRA_KEYS_FILENAME
+    '''
+
     with open(EXTRA_KEYS_FILENAME, encoding="utf-8") as data_file:
         raw_data = data_file.readlines()
     data = [row for row in raw_data if ': ' in row and '#' not in row]
@@ -68,7 +83,16 @@ def get_extra_keys() -> dict:
     return extra_context
 
 
-def get_context(dsp, date, admitting, issuing, approving):
+def get_context(dsp: str,
+                date: str,
+                admitting: str,
+                issuing: str,
+                approving: str) -> dict:
+    '''
+    Возвращает словарь содержащий переданные значения,
+    а так же ключи и значения из файла  EXTRA_KEYS_FILENAME
+    '''
+
     context = {}
 
     context['ДСП'] = dsp
@@ -83,6 +107,7 @@ def get_context(dsp, date, admitting, issuing, approving):
         admitting_list.remove(issuing)
     except ValueError:
         pass
+
     context['СписокДопускающих'] = ', '.join(admitting_list)
 
     if admitting != SKIP_ADMITTING_VALUE:
@@ -92,14 +117,15 @@ def get_context(dsp, date, admitting, issuing, approving):
         )
     else:
         context['Допускающий'] = admitting
+
     context['Выдающий'] = issuing
+
     if approving != SKIP_APPROVING_VALUE:
         approving = approving.split()
         approving = (f'{APPROVER_POSITION} '
                      f'{approving[0]} {approving[1][0]}.{approving[2][0]}.')
 
     context['Согласующий'] = approving
-
     context['Ряды'] = ROWS[context['ДСП']]
     dsp_number = int(context['ДСП'])
     context['Конвейеры'] = f'{dsp_number*2-1}, {dsp_number*2}'
@@ -107,7 +133,10 @@ def get_context(dsp, date, admitting, issuing, approving):
     return {**context, **get_extra_keys()}
 
 
-def get_save_folder_name(date: str, dsp: int) -> str:
+def get_save_folder_name(date: str, dsp: str) -> str:
+    '''
+    Создает и возвращает уникальное имя папки с готовыми документами
+    '''
     prefix = ''
     prefix_number = 1
     while 1:
@@ -118,7 +147,12 @@ def get_save_folder_name(date: str, dsp: int) -> str:
             prefix_number += 1
 
 
-def make_documents(templates_list, context):
+def make_documents(templates_list: list, context: dict) -> None:
+    '''
+    Создает документы на основе списка шаблонов templates_list
+    и словаря ключей context
+    '''
+
     save_folder = get_save_folder_name(context['Дата'], context['ДСП'])
     os.mkdir(save_folder)
     os.startfile(f'{os.getcwd()}\\{save_folder}')
@@ -136,6 +170,11 @@ def make_documents(templates_list, context):
 
 
 def main():
+    '''
+    Создает окно графического интерфейса программы
+    на основе HTML-шаблона в папке 'wui' и базы данных DB_FILENAME
+    '''
+
     eel.init('wui')
 
     admitting_list = db_inst.get_name_list('is_admitting', False)
@@ -167,7 +206,15 @@ def main():
 
 
 @eel.expose
-def make_nd(dsp, date, admitting, issuing, approving):
+def make_nd(dsp: str,
+            date: str,
+            admitting: str,
+            issuing: str,
+            approving: str) -> None:
+    '''
+    Функция реализует основную логику программы
+    на основе данных полученных из форм окна графического интерфейса
+    '''
 
     templates_list = get_templates_list()
     context = get_context(dsp, date, admitting, issuing, approving)
